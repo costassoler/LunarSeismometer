@@ -4,7 +4,8 @@ import os, time
 import numpy as np
 
 #############Save Data Function ################
-def dataSave(DataString):
+def dataSave():
+    global DataString
     Data = DataString.split(",")
     rows = int(len(Data)//2+1)
 
@@ -18,29 +19,45 @@ def dataSave(DataString):
             DataArray[row,col] = float(Data[j].replace('ts: ',''))
         if (Data[j].find("d:")==0):
             DataArray[row,col] = float(Data[j].replace('d: ',''))
-        np.savetxt("SeisRecord",DataArray, delimiter=',')
+    np.savez("SeisRecord.npz",DataArray, delimiter=',')
             
-           
-    print(DataArray)
 
-    
-GPIO.setmode(GPIO.BOARD)
-port = serial.Serial("/dev/ttyS0",baudrate=115200,timeout=.01)
-DataString=''
+def Run_TXRX():
+    GPIO.setmode(GPIO.BOARD)
+    port = serial.Serial("/dev/ttyS0",baudrate=115200,timeout=.01)
+    global DataString
+    DataString=''
+    n=0
+    while True:
 
-
-for i in range (0,100):
         try:
             port.write(str.encode('A'))
             rcv = port.read(50)
             DataString+=rcv.decode() #DataString is an object that contains all recorded data
+            n+=1
+            if(n%1000==0):
+                DataCheck=DataString
+                DataString=''
+                dataSave(DataString)
         except:
             dataSave(DataString)
             break
     
-                
-print(DataString)
-dataSave(DataString)    
+def Stream_TXRX():
+    GPIO.setmode(GPIO.BOARD)
+    port = serial.Serial("/dev/ttyS0",baudrate=115200,timeout=.01)
+    
+    while True:
+
+        try:
+            port.write(str.encode('A'))
+            rcv = port.read(50)
+            print(rcv) #DataString is an object that contains all recorded data
+            
+        except:
+            print("Error in reading Data")
+            break                
+ 
     
 
 
