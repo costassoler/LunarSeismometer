@@ -1,7 +1,4 @@
-import serial
-import RPi.GPIO as GPIO
-import os, time
-import numpy as np
+from imports import *
 
 #############Save Data Function ################
 def dataSave():
