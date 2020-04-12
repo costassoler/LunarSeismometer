@@ -16,8 +16,7 @@ def dataSave():
             DataArray[row,col] = float(Data[j].replace('ts: ',''))
         if (Data[j].find("d:")==0):
             DataArray[row,col] = float(Data[j].replace('d: ',''))
-    np.savez("SeisRecord.npz",DataArray, delimiter=',')
-            
+    np.savez("SeisRecord.npz",DataArray, delimiter=',')            
 
 def Run_TXRX():
     GPIO.setmode(GPIO.BOARD)
@@ -43,20 +42,17 @@ def Run_TXRX():
 def Stream_TXRX():
     GPIO.setmode(GPIO.BOARD)
     port = serial.Serial("/dev/ttyS0",baudrate=115200,timeout=.01)
-    
+   
+	#send start signal
+    port.write(str.encode('A'))
+ 
     while True:
 
         try:
-            port.write(str.encode('A'))
             rcv = port.read(50)
             print(rcv) #DataString is an object that contains all recorded data
             
         except:
             print("Error in reading Data")
             break                
- 
-    
-
-
-
-
+  

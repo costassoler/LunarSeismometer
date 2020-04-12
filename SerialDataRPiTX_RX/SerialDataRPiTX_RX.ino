@@ -8,7 +8,7 @@ void loop() {
   // put your main code here, to run repeatedly:
   if(Serial.available())
   {
-    c=Serial.read();
+    c = Serial.read();
     if(c=='A')
     {
       delay(1000);
