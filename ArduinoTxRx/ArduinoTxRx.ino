@@ -1,5 +1,6 @@
 char c;
 int SeisPin;
+int sampCount = 0;
 
 void setup() {
   // put your setup code here, to run once:
@@ -10,7 +11,7 @@ void loop() {
 	// wait for start signal 
 	while(true) {
 		// repeatedly check for start signal
-		if(Serial.available){
+		if(Serial.available()){
 			c = Serial.read();
 			if(c == 'A'){
 				break;
@@ -21,13 +22,17 @@ void loop() {
 	// read and transmit data
   	while(true){
 		delay(1);
-    	Serial.print("ts: ");
     	Serial.print(millis());
-    	Serial.print(",");
-    	Serial.print("d: ");
+    	Serial.print(":");
     	Serial.print(analogRead(A0));
-    	Serial.print(",");
-		
+    	
+		if(sampCount > 999 ){ // print a star every 1000 samples? one idea anyway
+			Serial.print("*");
+			sampCount = 0;
+		}else{
+			Serial.print(",");
+			sampCount += 1; // iterate count
+	    }
 		// stop condition
 //		if(c == 'B'){
 //			break;

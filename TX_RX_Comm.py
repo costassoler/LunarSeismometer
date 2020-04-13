@@ -41,7 +41,7 @@ def Run_TXRX():
     
 def Stream_TXRX():
     GPIO.setmode(GPIO.BOARD)
-    port = serial.Serial("/dev/ttyS0",baudrate=115200,timeout=.01)
+    port = serial.Serial("/dev/ttyS0",baudrate=BAUD_RATE,timeout=None)
    
 	#send start signal
     port.write(str.encode('A'))
@@ -49,10 +49,36 @@ def Stream_TXRX():
     while True:
 
         try:
-            rcv = port.read(50)
-            print(rcv) #DataString is an object that contains all recorded data
+            chunkString = port.read_until("*")
+            chunk = chunkData(chunkString)
+			chunk.print()
             
         except:
             print("Error in reading Data")
             break                
-  
+		   
+
+
+class chunkData: # struct for data chunk
+	def __init__(self,chunkString, chunkSize = CHUNK_SIZE):               
+		self.timeStamps, self.samples = self.parse(chunkString,chunkSize)   
+	
+	def append(self, chunkString, chunkSize = CHUNK_SIZE):
+		tmp = self.parse(chunkString,chunkSize)
+		self.timeStamps.append(tmp[0])
+		self.values.append(tmp[1])
+
+	def print(self):
+		for ind, timeStamp in enumerate(self.timeStamps):
+			print('ts:', timeStamp, 'val:', self.values[enumerate]) # print human readable				
+	
+	def parse(chunkString,chunkSize = CHUNK_SIZE):
+		timeStamps = values = np.zeros(chunkSize) # preallocate
+		samples = chunkString.split(",")
+		for ind, sample in enumerate(samples): # probably wont work, need to deal with * character other errors?
+			tmp	= sample.split(":")
+			timeStamps[ind] = np.float(tmp[0])
+			values[ind]     = np.float(tmp[1])
+		return (timeStamps,values)	
+
+
