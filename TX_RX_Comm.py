@@ -74,8 +74,8 @@ class chunkData: # struct for data chunk
 	
 	def parse(chunkString,chunkSize = CHUNK_SIZE):
 		timeStamps = values = np.zeros(chunkSize) # preallocate
-		samples = chunkString.split(",")
-		for ind, sample in enumerate(samples): # probably wont work, need to deal with * character other errors?
+		samples = chunkString[:-1].split(",")
+		for ind, sample in enumerate(samples): 
 			tmp	= sample.split(":")
 			timeStamps[ind] = np.float(tmp[0])
 			values[ind]     = np.float(tmp[1])
