@@ -71,6 +71,7 @@ class chunkData: # struct for data chunk
                 self.timeStamps.append(tmp[0])
                 self.values.append(tmp[1])
 
+<<<<<<< HEAD
   def print(self):
                 for ind, timeStamp in enumerate(self.timeStamps):
                         print('ts:', timeStamp, 'val:', self.values[enumerate]) # print human readable        
@@ -91,5 +92,19 @@ class chunkData: # struct for data chunk
                 
                 return (timeStamps,values) 
       
+=======
+	def print(self):
+		for ind, timeStamp in enumerate(self.timeStamps):
+			print('ts:', timeStamp, 'val:', self.values[enumerate]) # print human readable				
+	
+	def parse(chunkString,chunkSize = CHUNK_SIZE):
+		timeStamps = values = np.zeros(chunkSize) # preallocate
+		samples = chunkString[:-1].split(",")
+		for ind, sample in enumerate(samples): 
+			tmp	= sample.split(":")
+			timeStamps[ind] = np.float(tmp[0])
+			values[ind]     = np.float(tmp[1])
+		return (timeStamps,values)	
+>>>>>>> 85ac0aa561cd4a310ec6c6c0272de16ff6233dcd
 
 
