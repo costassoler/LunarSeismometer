@@ -1,6 +1,7 @@
 char c;
 int SeisPin;
 int sampCount = 0;
+int startTime;
 
 void setup() {
   // put your setup code here, to run once:
@@ -21,8 +22,9 @@ void loop() {
 	
 	// read and transmit data
   	while(true){
-		delay(1);
-    	Serial.print(millis());
+		
+		startTime = millis()
+    	Serial.print(startTime);
     	Serial.print(":");
     	Serial.print(analogRead(A0));
     	
@@ -37,6 +39,8 @@ void loop() {
 //		if(c == 'B'){
 //			break;
 //		}
+
+		delay(25 - (millis() - startTime)) //samples every 25 milliseconds
 
 	}
 }
