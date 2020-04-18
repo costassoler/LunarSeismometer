@@ -1,6 +1,6 @@
 char c;
 int SeisPin;
-int sampCount = 0;
+int sampCount = 1;
 int startTime;
 
 void setup() {
@@ -30,7 +30,7 @@ void loop() {
     	
 		if(sampCount > 99 ){ // print a star every 1000 samples? one idea anyway
 			Serial.print("*");
-			sampCount = 0;
+			sampCount = 1;
 		}else{
 			Serial.print(",");
 			sampCount += 1; // iterate count
