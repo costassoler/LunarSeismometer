@@ -23,12 +23,12 @@ void loop() {
 	// read and transmit data
   	while(true){
 		
-		startTime = millis()
+		  startTime = millis();
     	Serial.print(startTime);
     	Serial.print(":");
     	Serial.print(analogRead(A0));
     	
-		if(sampCount > 999 ){ // print a star every 1000 samples? one idea anyway
+		if(sampCount > 99 ){ // print a star every 1000 samples? one idea anyway
 			Serial.print("*");
 			sampCount = 0;
 		}else{
@@ -40,7 +40,7 @@ void loop() {
 //			break;
 //		}
 
-		delay(25 - (millis() - startTime)) //samples every 25 milliseconds
+		delay(25 - (millis() - startTime)); //samples every 25 milliseconds
 
 	}
 }
