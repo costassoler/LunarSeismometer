@@ -47,14 +47,15 @@ def Stream_TXRX():
     print("worked")
  
     while True:
-        try:
-            chunkString = port.read_until('*')
-            chunk = chunkData(chunkString)
-            chunk.print()
+        #try:
+        chunkString = port.read_until(b'*')
+        print("read until")
+        chunk = chunkData(chunkString)
+        chunk.print()
          
-        except:
-            print("Error in reading Data")
-            break
+        #except:
+            #print("Error in reading Data")
+            #break
        
 class chunkData: # struct for data chunk
     def __init__(self,chunkString, chunkSize = CHUNK_SIZE):
@@ -70,7 +71,7 @@ class chunkData: # struct for data chunk
             print('ts:', timeStamp, 'val:', self.values[ind]) # print human readable        
   
     def parse(self,chunkString,chunkSize):
-        samples    = chunkString.split(',')
+        samples    = chunkString.decode().split(',')
         timeStamps = np.zeros(chunkSize) # preallocate
         values     = np.zeros(chunkSize)
                
