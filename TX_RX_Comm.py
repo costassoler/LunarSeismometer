@@ -20,22 +20,18 @@ def dataSave(DataString):
 def Run_TXRX():
     GPIO.setmode(GPIO.BOARD)
     port = serial.Serial("/dev/ttyS0",baudrate=115200,timeout=.01)
-    global DataString
-    DataString=''
     n=0
+    port.write(str.encode('A'))
     while True:
         try:
-            port.write(str.encode('A'))
-            rcv = port.read(50)
+            
+            rcv = port.read_until(b',')
             DataString+=rcv.decode() #DataString is an object that contains all recorded data
             n+=1
             print(rcv)
-            if(n%1000==0):
-                DataCheck=DataString
-                DataString=''
-                dataSave(DataString)
+            
         except:
-            dataSave(DataString)
+            
             break
     
 def Stream_TXRX():
@@ -71,7 +67,7 @@ class chunkData: # struct for data chunk
             print('ts:', timeStamp, 'val:', self.values[ind]) # print human readable        
   
     def parse(self,chunkString,chunkSize):
-        samples    = chunkString.decode().split(',')
+        samples    = chunkString.decode()[:-1].split(',')
         timeStamps = np.zeros(chunkSize) # preallocate
         values     = np.zeros(chunkSize)
                
