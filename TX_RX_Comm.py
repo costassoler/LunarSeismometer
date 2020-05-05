@@ -71,13 +71,15 @@ def Display_TXRX():
         #
         try:
             ax.clear()
-            ax.set_aspect(3)
+            ax.set_aspect(0.2)
             chunkString = port.read_until(b'*')
             chunk = chunkData(chunkString)
-            #chunk.print()
+            
             x,y = chunk.coords()
-            line1 = ax.plot(x,y,'b-')
-            plt.ylim(-100,100)
+            line1 = ax.plot(x/1000,y*5/1023,'b-')
+            plt.ylim(0,5)
+            plt.xlabel("Time Since Start (seconds)")
+            plt.ylabel("Signal (Volts)")
             fig.canvas.draw()
             
         except KeyboardInterrupt:
