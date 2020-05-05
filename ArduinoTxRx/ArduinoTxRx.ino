@@ -1,7 +1,7 @@
 char c;
 int SeisPin;
 int sampCount = 1;
-int startTime;
+unsigned long startTime;
 
 void setup() {
   // put your setup code here, to run once:
@@ -40,7 +40,7 @@ void loop() {
 //			break;
 //		}
 
-		delay(25 - (millis() - startTime)); //samples every 25 milliseconds
+      delay(25 -(millis() - startTime)); //samples every 25 milliseconds
 
 	}
 }
