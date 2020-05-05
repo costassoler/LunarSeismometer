@@ -19,40 +19,74 @@ def dataSave(DataString):
 
 def Run_TXRX():
     GPIO.setmode(GPIO.BOARD)
-    port = serial.Serial("/dev/ttyS0",baudrate=115200,timeout=.01)
+    port = serial.Serial("/dev/ttyS0",baudrate=115200,timeout=1)
     n=0
     port.write(str.encode('A'))
+    print("wrote")
     while True:
+
+        
         try:
-            
-            rcv = port.read_until(b',')
-            DataString+=rcv.decode() #DataString is an object that contains all recorded data
-            n+=1
+            port.write(str.encode('A'))
+            rcv = port.read_until(b'*')
             print(rcv)
+            DataString+=rcv.decode() #DataString is an object that contains all recorded data
+            
             
         except:
             
-            break
+            continue
     
 def Stream_TXRX():
     GPIO.setmode(GPIO.BOARD)
-    port = serial.Serial("/dev/ttyS0",baudrate=BAUD_RATE,timeout=None)
+    port = serial.Serial("/dev/ttyS0",baudrate=BAUD_RATE,timeout=10)
    
     #send start signal
     port.write(str.encode('A'))
     print("worked")
- 
+
     while True:
         #try:
         chunkString = port.read_until(b'*')
-        print("read until")
         chunk = chunkData(chunkString)
         chunk.print()
-         
-        #except:
-            #print("Error in reading Data")
-            #break
-       
+        
+        
+def Display_TXRX():
+    GPIO.setmode(GPIO.BOARD)
+    port = serial.Serial("/dev/ttyS0",baudrate=BAUD_RATE,timeout=10)
+   
+    #send start signal
+    port.write(str.encode('A'))
+    print("worked")
+
+    plt.ion()
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    n=0
+    
+ 
+    while True:
+        #try:
+        #
+        try:
+            ax.clear()
+            ax.set_aspect(3)
+            chunkString = port.read_until(b'*')
+            chunk = chunkData(chunkString)
+            #chunk.print()
+            x,y = chunk.coords()
+            line1 = ax.plot(x,y,'b-')
+            plt.ylim(-100,100)
+            fig.canvas.draw()
+            
+        except KeyboardInterrupt:
+            break
+        except:
+            continue
+        
+        
+        
 class chunkData: # struct for data chunk
     def __init__(self,chunkString, chunkSize = CHUNK_SIZE):
         self.timeStamps, self.values = self.parse(chunkString,chunkSize)   
@@ -80,6 +114,15 @@ class chunkData: # struct for data chunk
                 continue
                 
         return (timeStamps,values)
+    
+    def coords(self):
+        x = self.timeStamps
+        y = self.values
+    
+        return x,y
+        
+
+        
       
 
 
