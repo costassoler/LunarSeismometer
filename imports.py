@@ -7,6 +7,7 @@ import os, time
 import matplotlib.pyplot as plt
 import wave
 import datetime
+import sys
 
 #values 
 CHUNK_SIZE = 100     # 1 sec for processing serial data for now change later maybe
