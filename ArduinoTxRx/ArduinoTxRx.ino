@@ -23,7 +23,7 @@ void loop() {
 	// read and transmit data
   	while(true){
 		
-		  startTime = millis();
+		startTime = millis();
     	Serial.print(startTime);
     	Serial.print(":");
     	Serial.print(analogRead(A0));

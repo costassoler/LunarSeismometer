@@ -41,7 +41,7 @@ def Stream_TXRX():
     GPIO.setmode(GPIO.BOARD)
     port = serial.Serial("/dev/ttyS0",baudrate=BAUD_RATE,timeout=10)
    
-    #send start signal
+    #send start signal 
     port.write(str.encode('A'))
     print("worked")
 
