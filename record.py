@@ -62,7 +62,7 @@ while True:
         #0 - 1023 V = 2 ** 10 -> 16 bit
         wavFile.writeframes(np.int16((chunk.values / 1024) * 2 ** 16).tobytes())
     
-    Except:
+    except:
         print("Error!")
     
 
