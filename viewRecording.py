@@ -9,6 +9,6 @@ n = wavFile.getnframes()
 bytesData = wavFile.readframes(n)
 int16Data = np.frombuffer(bytesData,dtype = np.int16)
 
-fig = plt.figure()
-fig.plot(int16Data) 
 
+plt.plot(int16Data) 
+plt.show()

@@ -44,14 +44,17 @@ print("Start Command Sent")
 
 #get current time 
 startTime = datetime.datetime.now()
-fileName  = 'recording' + str(startTime.year) + '_' + str(startTime.month) + '_' + str(startTime.day)+ '_' + str(startTime.hour)
+fileName  = 'recording' + str(startTime.year) + '_' + str(startTime.month) + '_' + str(startTime.day)+ '_' + str(startTime.hour)+'_'+str(startTime.second)
 
 # open file
-wavFile = wave.open(fileName, mode = 'wb')
+startSignal = 0
 
-wavFile.setnchannels(1)    # mono channel
-wavFile.setframerate(4000) # 4000 framerate upscale 1000 times 
-wavFile.setsampwidth(2)    # 16 bit audio
+np.savez(fileName,signals=startSignal,times=startTime)
+
+#setup graph:
+plt.ion()
+fig = plt.figure()
+ax = fig.add_subplot(111)
 
 # the main loop:
 while True:
@@ -59,11 +62,42 @@ while True:
         chunkString = port.read_until(b'*')
         chunk = chunkData(chunkString)
     
-        #0 - 1023 V = 2 ** 10 -> 16 bit
-        wavFile.writeframes(np.int16(chunk.values).tobytes())
+        #collects new data:
+        signal=chunk.values
+        time=chunk.timeStamps
+
+        #Plots newest data:
+        ax.clear()
+        ax.set_aspect(0.2)
+        
+            
+        x,y = chunk.coords()
+        line1 = ax.plot(x/1000,y*5/1023,'b-')
+        plt.ylim(0,5)
+        plt.xlabel("Time Since Start (seconds)")
+        plt.ylabel("Signal (Volts)")
+        fig.canvas.draw()
+        
+        #adds new data to npz file
+        Data=np.load(fileName+".npz")
+        signals = Data["signals"]
+        times = Data["times"]
+
+        
+        
+        signals=np.append(signals,signal)
+        print(signals)
+        times = np.append(times, time)
+
+        np.savez(fileName,signals=signals, times=times)
+
+        n=0
     
     except:
         print("Error!")
+        n+=1
+        if (n==10):
+            break
     
 
      
