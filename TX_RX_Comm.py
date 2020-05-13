@@ -77,7 +77,7 @@ def Display_TXRX():
             
             x,y = chunk.coords()
             line1 = ax.plot(x/1000,y*5/1023,'b-')
-            plt.ylim(0,5)
+            plt.ylim(0,3)
             plt.xlabel("Time Since Start (seconds)")
             plt.ylabel("Signal (Volts)")
             fig.canvas.draw()
