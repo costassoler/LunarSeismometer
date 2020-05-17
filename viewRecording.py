@@ -4,11 +4,7 @@ from imports import *
 fileName = sys.argv[1]
 
 # load file data
-wavFile = wave.open(fileName,mode='rb')
-n = wavFile.getnframes()
-bytesData = wavFile.readframes(n)
-int16Data = np.frombuffer(bytesData,dtype = np.int16)
+fileData = ibw.load(fileName,channels=2)
 
-
-plt.plot(int16Data) 
+plt.plot(fileData[0],fileData[1]) 
 plt.show()
