@@ -71,13 +71,13 @@ def Display_TXRX():
         #
         try:
             ax.clear()
-            ax.set_aspect(0.2)
+            ax.set_aspect(0.4)
             chunkString = port.read_until(b'*')
             chunk = chunkData(chunkString)
             
             x,y = chunk.coords()
             line1 = ax.plot(x/1000,y*5/1023,'b-')
-            plt.ylim(0,3)
+            plt.ylim(2,3)
             plt.xlabel("Time Since Start (seconds)")
             plt.ylabel("Signal (Volts)")
             fig.canvas.draw()

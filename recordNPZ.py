@@ -45,7 +45,7 @@ print("Start Command Sent")
 #get current time 
 UnixStart = time.time()
 startTime = datetime.datetime.utcnow()
-fileName  = 'StockRecording' + str(startTime.year) + '_' + str(startTime.month) + '_' + str(startTime.day)+ '_' + str(startTime.hour)+'_'+str(startTime.minute)
+fileName  = 'FilterNoSpring' + str(startTime.year) + '_' + str(startTime.month) + '_' + str(startTime.day)+ '_' + str(startTime.hour)+'_'+str(startTime.minute)
 
 # open file
 startSignal = 0
@@ -81,7 +81,7 @@ while True:
 
         #Plots newest data:
         ax.clear()
-        ax.set_aspect(0.75)
+        ax.set_aspect(2)
         
             
         x,y = chunk.coords()
@@ -90,7 +90,7 @@ while True:
         ax.plot(timePrev1/1000,sigPrev1*5/1023,'b-')
         ax.plot(x/1000,y*5/1023,'b-')
         #line2=ax.plot
-        plt.ylim(0,5)
+        plt.ylim(1,4)
         plt.xlabel("Time Since Start (seconds)")
         plt.ylabel("Signal (Volts)")
         fig.canvas.draw()
