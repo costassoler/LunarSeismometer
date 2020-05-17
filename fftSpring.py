@@ -17,7 +17,7 @@ fftChunk = sg.detrend(fftChunk) # detrend removes the mean + any linear trend ov
 # (this is also where the nyquist limit comes from :) ) When the signal is purely real, the negative and positive frequencies
 # are symetric, so you only need to calculate half
 
-freqDomain = np.fft.rfft(fftChunk)
+freqDomain = np.abs(np.fft.rfft(fftChunk)) # take the absolute value, fft returns complex values but we want the real magnitude
 
 # With only the real half of the frequencies, we have N // 2 + 1 points spread out between 0 and Fs/2
 # original signal is 200 points, so the fft will have 100 + 1 points
