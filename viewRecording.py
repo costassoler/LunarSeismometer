@@ -11,5 +11,5 @@ fileData = ibw.load(fileName,channels=2)
 print(fileData[:100,:])
 
 plt.figure()
-plt.plot(fileData[:7 *60 * 60 * 40,0],fileData[:7 * 60 * 60 * 40,1]) 
+plt.plot(fileData[:,0],fileData[:,1]) 
 plt.show()
